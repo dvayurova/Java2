@@ -1,6 +1,10 @@
 package src.ex00;
 
 public class User {
+    private int identifier;
+    private String name;
+    private int balance;
+
     public User() {
         identifier = 0;
         name = "Unknown";
@@ -40,9 +44,5 @@ public class User {
     public int getIdentifier() {
         return identifier;
     }
-
-    private int identifier;
-    private String name;
-    private int balance;
 
 }

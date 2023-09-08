@@ -3,6 +3,17 @@ package src.ex00;
 import java.util.UUID;
 
 public class Transaction {
+    public enum TransferCategory {
+        DEBIT,
+        CREDIT
+    }
+
+    private UUID identifier;
+    private User recipient;
+    private User sender;
+    private TransferCategory transferCategory;
+    private int transferAmount;
+
     public Transaction(User recipient, User sender, int transferAmount, TransferCategory transferCategory) {
         setRecipient(recipient);
         setSender(sender);
@@ -19,7 +30,7 @@ public class Transaction {
     }
 
     public void setAmount(int transferAmount) {
-        if ((transferAmount < 0 && transferCategory == TransferCategory.CREDIT) || (transferAmount >= 0 && transferCategory == TransferCategory.DEBIT)) {
+        if (((transferAmount < 0) && (transferCategory == TransferCategory.CREDIT)) || ((transferAmount >= 0) && (transferCategory == TransferCategory.DEBIT))) {
             System.err.println("Wrong values. Credit - is incoming transaction, debit is outgoing transaction");
             return;
         }
@@ -57,16 +68,5 @@ public class Transaction {
     public TransferCategory getTransferCategory() {
         return transferCategory;
     }
-
-    public enum TransferCategory {
-        DEBIT,
-        CREDIT
-    }
-
-    private UUID identifier;
-    private User recipient;
-    private User sender;
-    private TransferCategory transferCategory;
-    private int transferAmount;
 
 }
