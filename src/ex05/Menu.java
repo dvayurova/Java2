@@ -2,6 +2,7 @@ package src.ex05;
 
 import java.util.Scanner;
 import java.util.UUID;
+import java.util.InputMismatchException;
 
 public class Menu {
     private TransactionsService transactionsService;
@@ -21,7 +22,13 @@ public class Menu {
     public void run() {
         while (true) {
             printMenu();
-            int choice = scanner.nextInt();
+            int choice = 0;
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Incorrect input. Expected a number");
+                scanner.nextLine();
+            }
 
             switch (choice) {
                 case 1:
@@ -65,7 +72,13 @@ public class Menu {
     private void addUser() {
         System.out.println("Enter a user name and a balance");
         String name = scanner.next();
-        int balance = scanner.nextInt();
+        int balance = 0;
+        try {
+            balance = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Incorrect input. Expected a number");
+            scanner.nextLine();
+        }
         User user = new User(name, balance);
         transactionsService.addUser(user);
         System.out.println("User with id = " + user.getIdentifier() + " is added");
@@ -73,7 +86,13 @@ public class Menu {
 
     private void viewUserBalances() {
         System.out.println("Enter a user ID");
-        int id = scanner.nextInt();
+        int id = 0;
+        try {
+            id = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Incorrect input. Expected a number");
+            scanner.nextLine();
+        }
         try {
             System.out.println(transactionsService.getUser(id).getName() + " - " + transactionsService.getUsersBalance(id));
         } catch (RuntimeException e) {
@@ -83,12 +102,17 @@ public class Menu {
 
     private void performTransfer() {
         System.out.println("Enter a sender ID, a recipient ID, and a transfer amount");
-        int senderId = scanner.nextInt();
-        int recipientId = scanner.nextInt();
-        int transferAmount = scanner.nextInt();
         try {
-            transactionsService.executeTransaction(recipientId, senderId, transferAmount);
-            System.out.println("The transfer is completed");
+            int senderId = scanner.nextInt();
+            int recipientId = scanner.nextInt();
+            int transferAmount = scanner.nextInt();
+            try {
+                transactionsService.executeTransaction(recipientId, senderId, transferAmount);
+                System.out.println("The transfer is completed");
+            } catch (InputMismatchException e) {
+                System.out.println("Incorrect input. Expected a number");
+                scanner.nextLine();
+            }
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
@@ -96,7 +120,13 @@ public class Menu {
 
     private void viewUserTransactions() {
         System.out.println("Enter a user ID");
-        int id = scanner.nextInt();
+        int id = 0;
+        try {
+            id = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Incorrect input. Expected a number");
+            scanner.nextLine();
+        }
         try {
             User user = transactionsService.getUser(id);
             user.getTransactionsList().printTransactionList();
@@ -108,7 +138,13 @@ public class Menu {
     private void removeTransfer() {
         if (accessDenied()) return;
         System.out.println("Enter a user ID and a transfer ID");
-        int userId = scanner.nextInt();
+        int userId = 0;
+        try {
+            userId = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Incorrect input. Expected a number");
+            scanner.nextLine();
+        }
         String transferIdString = scanner.next();
         UUID transferId;
         try {
